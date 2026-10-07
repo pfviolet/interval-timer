@@ -33,8 +33,9 @@
     --ink-2:#5D6775;
     --line:#D2D8E0;
     --accent:#E2542A;
-    --accent-soft:rgba(226,84,42,.12);
+    --accent-soft:rgba(226,84,42,.13);
     --calm:#17887A;
+    --calm-soft:rgba(23,136,122,.13);
     --track:#D6DCE4;
     --shadow:0 1px 3px rgba(22,26,33,.07), 0 6px 20px rgba(22,26,33,.06);
     --font-num:'Oswald','Noto Sans KR',system-ui,sans-serif;
@@ -50,8 +51,9 @@
       --ink-2:#95A1B1;
       --line:#2B333F;
       --accent:#FF7A45;
-      --accent-soft:rgba(255,122,69,.16);
+      --accent-soft:rgba(255,122,69,.17);
       --calm:#36C2A9;
+      --calm-soft:rgba(54,194,169,.16);
       --track:#28303C;
       --shadow:0 1px 3px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.35);
     }
@@ -64,8 +66,9 @@
     --ink-2:#95A1B1;
     --line:#2B333F;
     --accent:#FF7A45;
-    --accent-soft:rgba(255,122,69,.16);
+    --accent-soft:rgba(255,122,69,.17);
     --calm:#36C2A9;
+    --calm-soft:rgba(54,194,169,.16);
     --track:#28303C;
     --shadow:0 1px 3px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.35);
   }
@@ -80,15 +83,21 @@
     -webkit-font-smoothing:antialiased;
   }
   .wrap{
+    --pc:var(--accent);
+    --pc-soft:var(--accent-soft);
     max-width:460px;
     margin:0 auto;
     padding-inline:20px;
-    padding-block:20px 28px;
+    padding-block:18px 26px;
     display:flex;
     flex-direction:column;
-    gap:18px;
+    gap:16px;
     min-height:100%;
     box-sizing:border-box;
+  }
+  .wrap.resting{
+    --pc:var(--calm);
+    --pc-soft:var(--calm-soft);
   }
 
   /* ── 헤더 ───────────────────────────── */
@@ -119,59 +128,72 @@
     padding:14px;
     box-shadow:var(--shadow);
   }
-  .panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;}
-  .panel-title{font-family:var(--font-label);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);}
-  .locknote{font-size:11.5px;color:var(--ink-2);}
+  .panel-head{display:flex;align-items:center;gap:10px;}
+  .panel-title{font-family:var(--font-label);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);flex:none;}
+  .summary{
+    flex:1;min-width:0;font-size:13.5px;font-weight:500;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .summary .w{color:var(--accent);}
+  .summary .r{color:var(--calm);}
+  .summary .sep{color:var(--ink-2);margin-inline:5px;}
+  .spacer{flex:1;}
+  .ghost.mini{padding:4px 10px;font-size:12px;flex:none;}
+  .settings{margin-top:11px;}
+  .locknote{font-size:11.5px;color:var(--ink-2);margin:9px 0 0;}
   .settings.locked{opacity:.42;pointer-events:none;}
-  .chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .group + .group{margin-top:13px;padding-top:13px;border-top:1px solid var(--line);}
+  .group-label{
+    display:flex;align-items:center;gap:7px;margin-bottom:8px;
+    font-size:13.5px;font-weight:700;
+  }
+  .dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .dot.w{background:var(--accent);}
+  .dot.r{background:var(--calm);}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;}
   .chip{
-    font-family:var(--font-num);font-weight:500;font-size:15px;letter-spacing:.02em;
+    font-family:var(--font-num);font-weight:500;font-size:14.5px;letter-spacing:.02em;
     background:var(--surface-2);color:var(--ink);
     border:1px solid transparent;border-radius:9px;
-    padding:8px 13px;cursor:pointer;
+    padding:7px 12px;cursor:pointer;
   }
-  .chip[aria-pressed="true"]{
-    background:var(--accent-soft);
-    border-color:var(--accent);
-    color:var(--accent);
-  }
+  .chips.work .chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
+  .chips.rest .chip[aria-pressed="true"]{background:var(--calm-soft);border-color:var(--calm);color:var(--calm);}
   .custom{
-    display:flex;align-items:center;gap:7px;
-    margin-top:11px;padding-top:11px;border-top:1px dashed var(--line);
-    font-size:13px;color:var(--ink-2);flex-wrap:wrap;
+    display:flex;align-items:center;gap:6px;margin-top:9px;
+    font-size:12.5px;color:var(--ink-2);flex-wrap:wrap;
   }
   .custom input{
-    width:62px;
-    font-family:var(--font-num);font-size:17px;font-weight:500;
+    width:56px;
+    font-family:var(--font-num);font-size:16px;font-weight:500;
     background:var(--surface-2);color:var(--ink);
     border:1px solid var(--line);border-radius:8px;
-    padding:6px 8px;text-align:center;
+    padding:5px 7px;text-align:center;
   }
   .custom input:focus-visible,.chip:focus-visible,.ghost:focus-visible,
-  button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  button:focus-visible,input:focus-visible{outline:2px solid var(--pc);outline-offset:2px;}
 
   /* ── 다이얼 ─────────────────────────── */
-  .dial{position:relative;display:grid;place-items:center;padding-block:4px;}
-  .dial svg{width:min(270px,72vw);height:auto;max-width:100%;display:block;}
-  .arc{transition:stroke-dashoffset .12s linear;}
+  .dial{position:relative;display:grid;place-items:center;}
+  .dial svg{width:min(264px,70vw);height:auto;max-width:100%;display:block;}
+  .arc{stroke:var(--pc);transition:stroke-dashoffset .12s linear;}
   .readout{position:absolute;text-align:center;pointer-events:none;}
+  .phase{
+    display:inline-block;
+    font-family:var(--font-label);font-size:11px;font-weight:700;
+    letter-spacing:.16em;text-transform:uppercase;
+    color:var(--pc);background:var(--pc-soft);
+    border-radius:999px;padding:3px 11px;margin-bottom:5px;
+  }
   .count{
     font-family:var(--font-num);font-weight:300;
-    font-size:clamp(62px,19vw,80px);line-height:.95;
+    font-size:clamp(58px,18vw,76px);line-height:.95;
     font-variant-numeric:tabular-nums;letter-spacing:-.01em;
     color:var(--ink);
   }
-  .count-unit{font-size:.3em;font-weight:500;color:var(--ink-2);margin-left:.15em;letter-spacing:.04em;}
-  .cycle{
-    font-family:var(--font-label);font-size:11px;font-weight:600;
-    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-top:6px;
-  }
-  .dial.pulse .arc{stroke:var(--accent);}
-  .dial.pulse .count{color:var(--accent);}
-  .flashring{
-    position:absolute;inset:8%;border-radius:50%;
-    border:3px solid var(--accent);opacity:0;
-  }
+  .count-unit{font-size:.3em;font-weight:500;color:var(--ink-2);margin-left:.14em;letter-spacing:.04em;}
+  .dial.pulse .count{color:var(--pc);}
+  .flashring{position:absolute;inset:7%;border-radius:50%;border:3px solid var(--pc);opacity:0;}
   .dial.pulse .flashring{animation:ping .5s ease-out;}
   @keyframes ping{
     0%{opacity:.85;transform:scale(.94);}
@@ -180,17 +202,36 @@
   @media (prefers-reduced-motion: reduce){
     .dial.pulse .flashring{animation:none;}
     .arc{transition:none;}
+    .head{transition:none;}
+  }
+
+  /* ── 사이클 막대 ────────────────────── */
+  .cyclebar{
+    position:relative;display:flex;gap:3px;height:30px;
+    border-radius:9px;overflow:hidden;
+  }
+  .seg{
+    display:grid;place-items:center;min-width:0;
+    font-family:var(--font-label);font-size:11px;font-weight:600;letter-spacing:.05em;
+    white-space:nowrap;overflow:hidden;
+  }
+  .seg span{max-width:100%;padding-inline:6px;overflow:hidden;text-overflow:ellipsis;}
+  .seg.w{background:var(--accent-soft);color:var(--accent);}
+  .seg.r{background:var(--calm-soft);color:var(--calm);}
+  .head{
+    position:absolute;top:0;bottom:0;width:2px;background:var(--ink);
+    opacity:.55;transition:left .12s linear;
   }
 
   /* ── 기록 ───────────────────────────── */
   .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
   .stat{
     background:var(--surface);border:1px solid var(--line);border-radius:12px;
-    padding:10px 13px;
+    padding:9px 13px;
   }
-  .stat dt{font-family:var(--font-label);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);}
+  .stat dt{font-family:var(--font-label);font-size:10.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-2);}
   .stat dd{
-    margin:2px 0 0;font-family:var(--font-num);font-weight:500;font-size:26px;
+    margin:1px 0 0;font-family:var(--font-num);font-weight:500;font-size:25px;
     font-variant-numeric:tabular-nums;color:var(--ink);
   }
   .stat dd small{font-size:13px;color:var(--ink-2);margin-left:3px;font-weight:400;}
@@ -201,14 +242,14 @@
     flex:1;
     font-family:var(--font-num);font-weight:500;font-size:21px;letter-spacing:.05em;
     background:var(--calm);color:#fff;border:none;border-radius:14px;
-    padding:17px 10px;cursor:pointer;
+    padding:16px 10px;cursor:pointer;
   }
-  .primary.is-running{background:var(--accent);}
+  .primary.is-running{background:var(--pc);}
   .primary:active{transform:translateY(1px);}
   .secondary{
     font-family:var(--font-num);font-weight:500;font-size:17px;letter-spacing:.04em;
     background:var(--surface);color:var(--ink-2);
-    border:1px solid var(--line);border-radius:14px;padding:17px 20px;cursor:pointer;
+    border:1px solid var(--line);border-radius:14px;padding:16px 20px;cursor:pointer;
   }
   .secondary:hover{color:var(--ink);}
 
@@ -218,6 +259,14 @@
   .toggle input{accent-color:var(--accent);width:16px;height:16px;}
   .vol{flex:1;min-width:120px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2);}
   .vol input[type=range]{flex:1;accent-color:var(--accent);min-width:70px;}
+  .legend{
+    display:flex;flex-wrap:wrap;gap:6px 16px;
+    margin:10px 0 0;padding-top:10px;border-top:1px dashed var(--line);
+    font-size:12.5px;color:var(--ink-2);
+  }
+  .legend b{font-family:var(--font-num);font-weight:500;letter-spacing:.06em;}
+  .legend .w b{color:var(--accent);}
+  .legend .r b{color:var(--calm);}
   .hint{font-size:12px;color:var(--ink-2);text-align:center;margin:0;}
   kbd{
     font-family:var(--font-label);font-size:11px;
@@ -227,7 +276,7 @@
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="wrap">
   <div class="topbar">
     <div>
       <div class="eyebrow">Interval Beeper</div>
@@ -238,26 +287,55 @@
 
   <section class="panel">
     <div class="panel-head">
-      <span class="panel-title">구간 길이</span>
-      <span class="locknote" id="locknote" hidden>일시정지하면 바꿀 수 있어요</span>
+      <span class="panel-title">구간 설정</span>
+      <span class="summary" id="summary" hidden></span>
+      <span class="spacer" id="spacer"></span>
+      <button type="button" class="ghost mini" id="toggleSettings" aria-expanded="true" aria-controls="settings">접기</button>
     </div>
+    <p class="locknote" id="locknote" hidden>일시정지하면 바꿀 수 있어요</p>
     <div class="settings" id="settings">
-      <div class="chips" id="chips" role="group" aria-label="구간 길이 프리셋">
-        <button type="button" class="chip" data-sec="20">20초</button>
-        <button type="button" class="chip" data-sec="30">30초</button>
-        <button type="button" class="chip" data-sec="45">45초</button>
-        <button type="button" class="chip" data-sec="60">1분</button>
-        <button type="button" class="chip" data-sec="90">1분 30초</button>
-        <button type="button" class="chip" data-sec="120">2분</button>
-        <button type="button" class="chip" data-sec="180">3분</button>
+
+      <div class="group">
+        <div class="group-label"><span class="dot w"></span>운동</div>
+        <div class="chips work" id="workChips" role="group" aria-label="운동 시간 프리셋">
+          <button type="button" class="chip" data-sec="20">20초</button>
+          <button type="button" class="chip" data-sec="30">30초</button>
+          <button type="button" class="chip" data-sec="40">40초</button>
+          <button type="button" class="chip" data-sec="45">45초</button>
+          <button type="button" class="chip" data-sec="60">1분</button>
+          <button type="button" class="chip" data-sec="90">1분 30초</button>
+          <button type="button" class="chip" data-sec="120">2분</button>
+          <button type="button" class="chip" data-sec="180">3분</button>
+        </div>
+        <div class="custom">
+          <span>직접 입력</span>
+          <input type="number" id="wMin" min="0" max="59" step="1" value="0" inputmode="numeric" aria-label="운동 분">
+          <span>분</span>
+          <input type="number" id="wSec" min="0" max="59" step="1" value="45" inputmode="numeric" aria-label="운동 초">
+          <span>초</span>
+        </div>
       </div>
-      <div class="custom">
-        <span>직접 입력</span>
-        <input type="number" id="min" min="0" max="59" step="1" value="0" inputmode="numeric" aria-label="분">
-        <span>분</span>
-        <input type="number" id="sec" min="0" max="59" step="1" value="30" inputmode="numeric" aria-label="초">
-        <span>초</span>
+
+      <div class="group">
+        <div class="group-label"><span class="dot r"></span>휴식</div>
+        <div class="chips rest" id="restChips" role="group" aria-label="휴식 시간 프리셋">
+          <button type="button" class="chip" data-sec="0">없음</button>
+          <button type="button" class="chip" data-sec="10">10초</button>
+          <button type="button" class="chip" data-sec="15">15초</button>
+          <button type="button" class="chip" data-sec="20">20초</button>
+          <button type="button" class="chip" data-sec="30">30초</button>
+          <button type="button" class="chip" data-sec="45">45초</button>
+          <button type="button" class="chip" data-sec="60">1분</button>
+        </div>
+        <div class="custom">
+          <span>직접 입력</span>
+          <input type="number" id="rMin" min="0" max="59" step="1" value="0" inputmode="numeric" aria-label="휴식 분">
+          <span>분</span>
+          <input type="number" id="rSec" min="0" max="59" step="1" value="15" inputmode="numeric" aria-label="휴식 초">
+          <span>초</span>
+        </div>
       </div>
+
     </div>
   </section>
 
@@ -266,24 +344,30 @@
       <g id="ticks"></g>
       <circle cx="130" cy="130" r="108" fill="none" stroke="var(--track)" stroke-width="12"></circle>
       <circle id="arc" class="arc" cx="130" cy="130" r="108" fill="none"
-              stroke="var(--calm)" stroke-width="12" stroke-linecap="round"
+              stroke-width="12" stroke-linecap="round"
               transform="rotate(-90 130 130)"
               stroke-dasharray="678.58" stroke-dashoffset="0"></circle>
     </svg>
     <div class="flashring"></div>
     <div class="readout">
-      <div class="count"><span id="count">30</span><span class="count-unit" id="countUnit">초</span></div>
-      <div class="cycle" id="cycle">남은 시간 · 30초마다 삐</div>
+      <div class="phase" id="phase">운동</div>
+      <div class="count"><span id="count">45</span><span class="count-unit" id="countUnit">초</span></div>
     </div>
+  </div>
+
+  <div class="cyclebar" id="cyclebar">
+    <div class="seg w" id="segW"><span id="segWLabel">운동 45초</span></div>
+    <div class="seg r" id="segR"><span id="segRLabel">휴식 15초</span></div>
+    <div class="head" id="head" style="left:0%"></div>
   </div>
 
   <dl class="stats">
     <div class="stat">
-      <dt>완료한 구간</dt>
+      <dt>완료한 세트</dt>
       <dd><span id="rounds">0</span><small>회</small></dd>
     </div>
     <div class="stat">
-      <dt>총 운동 시간</dt>
+      <dt>총 경과 시간</dt>
       <dd id="total">00:00</dd>
     </div>
   </dl>
@@ -304,6 +388,11 @@
         <input type="range" id="vol" min="0" max="100" value="70" aria-label="음량">
       </label>
     </div>
+    <p class="legend">
+      <span class="w"><b>삐———</b> 운동 시작</span>
+      <span class="r"><b>삐삐</b> 휴식 시작</span>
+      <span>마지막 3초는 높은 “띵”</span>
+    </p>
   </section>
 
   <p class="hint"><kbd>Space</kbd> 시작·정지 &nbsp;·&nbsp; <kbd>R</kbd> 초기화 &nbsp;·&nbsp; 실행 중에는 화면이 꺼지지 않아요</p>
@@ -316,36 +405,53 @@
   var CIRC = 2 * Math.PI * 108;   // 678.58
 
   var els = {
+    wrap: document.getElementById('wrap'),
     dial: document.getElementById('dial'),
     arc: document.getElementById('arc'),
     ticks: document.getElementById('ticks'),
+    phase: document.getElementById('phase'),
     count: document.getElementById('count'),
     countUnit: document.getElementById('countUnit'),
-    cycle: document.getElementById('cycle'),
+    segW: document.getElementById('segW'),
+    segR: document.getElementById('segR'),
+    segWLabel: document.getElementById('segWLabel'),
+    segRLabel: document.getElementById('segRLabel'),
+    head: document.getElementById('head'),
     rounds: document.getElementById('rounds'),
     total: document.getElementById('total'),
     startBtn: document.getElementById('startBtn'),
     resetBtn: document.getElementById('resetBtn'),
-    chips: document.getElementById('chips'),
+    workChips: document.getElementById('workChips'),
+    restChips: document.getElementById('restChips'),
     settings: document.getElementById('settings'),
+    summary: document.getElementById('summary'),
+    spacer: document.getElementById('spacer'),
+    toggleSettings: document.getElementById('toggleSettings'),
     locknote: document.getElementById('locknote'),
-    min: document.getElementById('min'),
-    sec: document.getElementById('sec'),
+    wMin: document.getElementById('wMin'),
+    wSec: document.getElementById('wSec'),
+    rMin: document.getElementById('rMin'),
+    rSec: document.getElementById('rSec'),
     tickOn: document.getElementById('tickOn'),
     vol: document.getElementById('vol'),
     preview: document.getElementById('preview')
   };
 
-  var interval = 30;      // 구간 길이(초)
+  var work = 45;          // 운동(초)
+  var rest = 15;          // 휴식(초), 0이면 쉬지 않고 반복
   var running = false;
   var accumulated = 0;    // 정지 상태까지 누적된 초
   var anchor = 0;         // 이번 구동 시작 시점(오디오 시계)
   var nextTick = 0;       // 다음 초음이 울릴 시각
   var tickIndex = 0;      // 지금까지 울린 초음 수
   var rounds = 0;
+  var collapsed = false;
   var sched = null;
+  var lastLen = 0;        // 눈금을 다시 그릴지 판단
   var wakeLock = null;
   var ctx = null, master = null;
+
+  function cycle(){ return work + rest; }
 
   /* ── 소리 ───────────────────────────── */
   function audio(){
@@ -371,31 +477,54 @@
     osc.connect(g); g.connect(master);
     osc.start(at); osc.stop(at + dur + 0.03);
   }
-  function tickSound(at){ blip(at, 1046.5, 0.055, 0.16, 'triangle'); }        // 띠
-  function markSound(at){ blip(at, 1760, 0.46, 0.5, 'square'); }              // 삐
+  function tickSound(at){ blip(at, 1046.5, 0.055, 0.16, 'triangle'); }   // 띠
+  function cueSound(at){ blip(at, 1568, 0.075, 0.24, 'triangle'); }      // 띵 (마지막 3초)
+  function goSound(at){ blip(at, 1760, 0.60, 0.50, 'square'); }          // 삐——— 운동 시작
+  function restSound(at){                                                // 삐삐 휴식 시작
+    blip(at, 1318.5, 0.15, 0.44, 'square');
+    blip(at + 0.25, 1318.5, 0.15, 0.44, 'square');
+  }
 
   /* ── 시계 ───────────────────────────── */
   function elapsed(){
     return running ? accumulated + (ctx.currentTime - anchor) : accumulated;
   }
+  // t초가 지난 시점에서 그 단계의 남은 초
+  function remainAt(t){
+    var c = cycle(), p = t % c;
+    return (rest === 0 || p < work) ? (work - p) : (c - p);
+  }
   function scheduler(){
     while(nextTick < ctx.currentTime + 0.15){
       tickIndex += 1;
-      var isMark = (tickIndex % interval === 0);
-      if(isMark){ markSound(nextTick); }
-      else if(els.tickOn.checked){ tickSound(nextTick); }
-      if(isMark){
+      var p = tickIndex % cycle();
+      var kind = null;
+      if(p === 0) kind = 'work';                        // 휴식 끝 → 운동 시작
+      else if(rest > 0 && p === work) kind = 'rest';    // 운동 끝 → 휴식 시작
+
+      if(kind === 'work'){ goSound(nextTick); }
+      else if(kind === 'rest'){ restSound(nextTick); }
+      else if(els.tickOn.checked){
+        var rem = remainAt(tickIndex);
+        (rem <= 3 ? cueSound : tickSound)(nextTick);
+      }
+      if(kind){
         var delay = Math.max(0, (nextTick - ctx.currentTime) * 1000);
-        setTimeout(onMark, delay);
+        setTimeout(makeBoundary(kind), delay);
       }
       nextTick += 1;
     }
   }
-  function onMark(){
-    rounds += 1;
-    els.rounds.textContent = rounds;
-    els.dial.classList.add('pulse');
-    setTimeout(function(){ els.dial.classList.remove('pulse'); }, 520);
+  function makeBoundary(kind){
+    return function(){
+      // 운동 한 세트가 끝나는 순간에만 센다
+      if(kind === 'rest' || (kind === 'work' && rest === 0)){
+        rounds += 1;
+        els.rounds.textContent = rounds;
+      }
+      els.dial.classList.add('pulse');
+      setTimeout(function(){ els.dial.classList.remove('pulse'); }, 520);
+    };
   }
 
   function start(){
@@ -409,7 +538,7 @@
     els.startBtn.textContent = '일시정지';
     els.startBtn.classList.add('is-running');
     els.settings.classList.add('locked');
-    els.locknote.hidden = false;
+    setCollapsed(true);
     requestWakeLock();
     frame();
   }
@@ -421,13 +550,12 @@
     els.startBtn.textContent = '이어서 시작';
     els.startBtn.classList.remove('is-running');
     els.settings.classList.remove('locked');
-    els.locknote.hidden = true;
+    setCollapsed(false);
     releaseWakeLock();
     render();
   }
   function reset(){
-    var wasRunning = running;
-    if(wasRunning) pause();
+    if(running) pause();
     accumulated = 0; tickIndex = 0; rounds = 0;
     els.rounds.textContent = '0';
     els.startBtn.textContent = '시작';
@@ -440,21 +568,36 @@
     var m = Math.floor(s / 60);
     return (m < 10 ? '0' : '') + m + ':' + ((s % 60) < 10 ? '0' : '') + (s % 60);
   }
+  function dur(sec){
+    if(sec >= 60){
+      return (sec % 60 === 0) ? (sec / 60) + '분' : Math.floor(sec / 60) + '분 ' + (sec % 60) + '초';
+    }
+    return sec + '초';
+  }
   function render(){
     var e = elapsed();
-    var into = e % interval;
-    var remain = interval - into;
-    if(remain > interval - 0.0005) remain = interval;
+    var c = cycle();
+    var p = e % c;
+    var resting = (rest > 0 && p >= work);
+    var len = resting ? rest : work;
+    var remain = resting ? (c - p) : (work - p);
+    if(remain > len - 0.0005) remain = len;
 
-    if(interval > 60){
+    els.wrap.classList.toggle('resting', resting);
+    els.phase.textContent = resting ? '휴식' : '운동';
+
+    if(len > 60){
       els.count.textContent = mmss(Math.ceil(remain - 0.0001));
       els.countUnit.textContent = '';
     }else{
       els.count.textContent = Math.max(0, Math.ceil(remain - 0.0001));
       els.countUnit.textContent = '초';
     }
-    els.arc.setAttribute('stroke-dashoffset', String(CIRC * (1 - remain / interval)));
+    els.arc.setAttribute('stroke-dashoffset', String(CIRC * (1 - remain / len)));
+    els.head.style.left = (p / c * 100) + '%';
     els.total.textContent = mmss(e);
+
+    if(len !== lastLen){ drawTicks(len); lastLen = len; }
   }
   function frame(){
     if(!running) return;
@@ -462,56 +605,90 @@
     requestAnimationFrame(frame);
   }
 
-  function drawTicks(){
-    var n = interval <= 60 ? interval : Math.min(36, Math.round(interval / 10));
+  function drawTicks(len){
+    var n = len <= 60 ? len : Math.min(36, Math.round(len / 10));
     var out = '';
     for(var i = 0; i < n; i++){
       var a = (i / n) * Math.PI * 2 - Math.PI / 2;
-      var r1 = 90, r2 = (n <= 12 || i % 5 === 0) ? 82 : 85;
+      var major = (i % 5 === 0);
+      var r1 = 90, r2 = major ? 82 : 85;
       out += '<line x1="' + (130 + Math.cos(a) * r1).toFixed(2) + '" y1="' + (130 + Math.sin(a) * r1).toFixed(2) +
              '" x2="' + (130 + Math.cos(a) * r2).toFixed(2) + '" y2="' + (130 + Math.sin(a) * r2).toFixed(2) +
-             '" stroke="var(--track)" stroke-width="' + ((i % 5 === 0) ? 2.4 : 1.4) + '" stroke-linecap="round"></line>';
+             '" stroke="var(--track)" stroke-width="' + (major ? 2.4 : 1.4) + '" stroke-linecap="round"></line>';
     }
     els.ticks.innerHTML = out;
   }
-  function label(){
-    var t = interval >= 60
-      ? (interval % 60 === 0 ? (interval / 60) + '분' : Math.floor(interval / 60) + '분 ' + (interval % 60) + '초')
-      : interval + '초';
-    els.cycle.textContent = '남은 시간 · ' + t + '마다 삐';
-  }
 
   /* ── 설정 ───────────────────────────── */
-  function setInterval_(sec, fromInputs){
-    sec = Math.max(1, Math.min(3600, Math.round(sec)));
-    interval = sec;
-    if(!fromInputs){
-      els.min.value = Math.floor(sec / 60);
-      els.sec.value = sec % 60;
-    }
-    var chips = els.chips.querySelectorAll('.chip');
+  function setCollapsed(next){
+    collapsed = next;
+    els.settings.hidden = next;
+    els.summary.hidden = !next;
+    els.spacer.hidden = next;
+    els.toggleSettings.textContent = next ? '펼치기' : '접기';
+    els.toggleSettings.setAttribute('aria-expanded', String(!next));
+    els.locknote.hidden = !(running && !next);
+  }
+  function syncChips(group, sec){
+    var chips = group.querySelectorAll('.chip');
     for(var i = 0; i < chips.length; i++){
       chips[i].setAttribute('aria-pressed', String(Number(chips[i].dataset.sec) === sec));
     }
-    drawTicks(); label();
+  }
+  function apply(newWork, newRest, fromInputs){
+    work = Math.max(1, Math.min(3600, Math.round(newWork)));
+    rest = Math.max(0, Math.min(3600, Math.round(newRest)));
+
+    if(!fromInputs){
+      els.wMin.value = Math.floor(work / 60); els.wSec.value = work % 60;
+      els.rMin.value = Math.floor(rest / 60); els.rSec.value = rest % 60;
+    }
+    syncChips(els.workChips, work);
+    syncChips(els.restChips, rest);
+
+    els.summary.innerHTML = '<span class="w">운동 ' + dur(work) + '</span>' +
+      (rest > 0 ? '<span class="sep">·</span><span class="r">휴식 ' + dur(rest) + '</span>'
+                : '<span class="sep">·</span>휴식 없음');
+
+    els.segW.style.flex = String(work);
+    els.segWLabel.textContent = '운동 ' + dur(work);
+    if(rest > 0){
+      els.segR.hidden = false;
+      els.segR.style.flex = String(rest);
+      els.segRLabel.textContent = '휴식 ' + dur(rest);
+    }else{
+      els.segR.hidden = true;
+    }
+
     accumulated = 0; tickIndex = 0; rounds = 0;
     els.rounds.textContent = '0';
-    try{ localStorage.setItem('interval-sec', String(sec)); }catch(err){}
+    lastLen = 0;
+    try{
+      localStorage.setItem('iv-work', String(work));
+      localStorage.setItem('iv-rest', String(rest));
+    }catch(err){}
     render();
   }
 
-  els.chips.addEventListener('click', function(ev){
+  els.toggleSettings.addEventListener('click', function(){ setCollapsed(!collapsed); });
+
+  els.workChips.addEventListener('click', function(ev){
     var b = ev.target.closest('.chip');
-    if(b) setInterval_(Number(b.dataset.sec), false);
+    if(b) apply(Number(b.dataset.sec), rest, false);
+  });
+  els.restChips.addEventListener('click', function(ev){
+    var b = ev.target.closest('.chip');
+    if(b) apply(work, Number(b.dataset.sec), false);
   });
   function fromInputs(){
-    var m = Number(els.min.value) || 0, s = Number(els.sec.value) || 0;
-    var total = m * 60 + s;
-    if(total < 1) return;
-    setInterval_(total, true);
+    var w = (Number(els.wMin.value) || 0) * 60 + (Number(els.wSec.value) || 0);
+    var r = (Number(els.rMin.value) || 0) * 60 + (Number(els.rSec.value) || 0);
+    if(w < 1) return;
+    apply(w, r, true);
   }
-  els.min.addEventListener('change', fromInputs);
-  els.sec.addEventListener('change', fromInputs);
+  [els.wMin, els.wSec, els.rMin, els.rSec].forEach(function(input){
+    input.addEventListener('change', fromInputs);
+  });
 
   els.vol.addEventListener('input', function(){
     if(master) master.gain.value = Number(els.vol.value) / 100;
@@ -520,7 +697,10 @@
     if(!audio()) return;
     master.gain.value = Number(els.vol.value) / 100;
     var t = ctx.currentTime + 0.05;
-    tickSound(t); tickSound(t + 0.5); tickSound(t + 1.0); markSound(t + 1.5);
+    tickSound(t); cueSound(t + 0.45); cueSound(t + 0.9);
+    restSound(t + 1.4);                 // 운동 끝 → 휴식
+    tickSound(t + 2.3); cueSound(t + 2.75);
+    goSound(t + 3.2);                   // 휴식 끝 → 운동
   });
 
   els.startBtn.addEventListener('click', function(){
@@ -550,9 +730,15 @@
     if(document.visibilityState === 'visible' && running) requestWakeLock();
   });
 
-  var saved = 30;
-  try{ var v = Number(localStorage.getItem('interval-sec')); if(v >= 1) saved = v; }catch(err){}
-  setInterval_(saved, false);
+  var sw = 45, sr = 15;
+  try{
+    var a = Number(localStorage.getItem('iv-work'));
+    var b = Number(localStorage.getItem('iv-rest'));
+    if(a >= 1) sw = a;
+    if(b >= 0 && !isNaN(b) && localStorage.getItem('iv-rest') !== null) sr = b;
+  }catch(err){}
+  apply(sw, sr, false);
+  setCollapsed(false);
 })();
 </script>
 </body>
